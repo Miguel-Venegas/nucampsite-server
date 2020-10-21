@@ -9,6 +9,18 @@ var usersRouter = require('./routes/users');
 const partnerRouter = require('./routes/partnerRouter');
 const promotionRouter = require('./routes/promotionRouter');
 const campsiteRouter = require('./routes/campsiteRouter');
+const mongoose = require('mongoose');
+const url = 'mongodb://localhost:27017/nucampsite';
+const connect = mongoose.connect(url,{
+  useCreateIndex: true,
+  useFindAndModify: false,
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
+
+connect.then(() => console.log('Connected correctly to the server. Good job, bro.'), 
+  err => console.log(err)
+);
 
 var app = express();
 
