@@ -21,17 +21,17 @@ router.post('/signup', (req, res) => {
                 res.setHeader('Content-Type', 'application/json');
                 res.json({err: err});
             } else {
-                if(req.body.firstname){
+                if (req.body.firstname) {
                     user.firstname = req.body.firstname;
                 }
-                if(req.body.lastname){
+                if (req.body.lastname) {
                     user.lastname = req.body.lastname;
                 }
                 user.save(err => {
-                    if(err){
+                    if (err) {
                         res.statusCode = 500;
                         res.setHeader('Content-Type', 'application/json');
-                        res.json({err:err});
+                        res.json({err: err});
                         return;
                     }
                     passport.authenticate('local')(req, res, () => {
