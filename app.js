@@ -10,7 +10,9 @@ var usersRouter = require('./routes/users');
 const partnerRouter = require('./routes/partnerRouter');
 const promotionRouter = require('./routes/promotionRouter');
 const campsiteRouter = require('./routes/campsiteRouter');
+
 const mongoose = require('mongoose');
+
 const url = config.mongoUrl;
 const connect = mongoose.connect(url,{
   useCreateIndex: true,
@@ -34,17 +36,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 //app.use(cookieParser('12345-67890-09876-54321'));
 
-
-
 app.use(passport.initialize());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-
 app.use(express.static(path.join(__dirname, 'public')));
 
-
+//routers
 
 app.use('/campsites', campsiteRouter);
 app.use('/partners', partnerRouter);
