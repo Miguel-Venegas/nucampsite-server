@@ -39,4 +39,22 @@ exports.jwtPassport = passport.use(
     )
 );
 
+// 3rd Workshop assignment, Task 1: Set up the verifyAdmin() middleware
+
+
+exports.verifyAdmin = (req, res, next) => {
+    if(req.user.admin){
+        return next()
+    } else {
+        const err = new Error(`You are not authorized to perform this operation!`);
+        err.status = 403;
+        return next(err);
+        
+        // OR console.log('You are not authorized to perform this operation, as you are not an administrator!');
+        // res.statusCode = 403;
+        // return next(err);
+    }
+  }
+
 exports.verifyUser = passport.authenticate('jwt', {session: false});
+

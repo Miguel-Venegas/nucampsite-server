@@ -5,12 +5,18 @@ const authenticate = require('../authenticate');
 
 
 const router = express.Router();
-
 /* GET users listing. */
-router.get('/', function(req, res) {
-    res.send('respond with a resource');
+// Workshop # 3, Task 3: Complete the GET /users endpoint
+// Allow admins to access users documents: Activate the /users path for GET requests in the usersRouter (/routes/users.js).
+router.get('/', authenticate.verifyUser, authenticate.verifyAdmin, function(req, res) {
+        User.find()
+        .then(user => {
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'application/json');
+            res.json(user);
+        })
+        .catch(err => next(err));
 });
-
 router.post('/signup', (req, res) => {
     User.register(
         new User({username: req.body.username}),
@@ -44,7 +50,6 @@ router.post('/signup', (req, res) => {
         }
     );
 });
-
 router.post('/login', passport.authenticate('local'), (req, res) => {
     // i was missing a _ on {id:req.user._id}
     const token = authenticate.getToken({_id: req.user._id});
