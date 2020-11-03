@@ -2,13 +2,14 @@ const express = require('express');
 const User = require('../models/user');
 const passport = require('passport');
 const authenticate = require('../authenticate');
-
+// to use cors in router
+const cors = require('./cors');
 
 const router = express.Router();
 /* GET users listing. */
 // Workshop # 3, Task 3: Complete the GET /users endpoint
 // Allow admins to access users documents: Activate the /users path for GET requests in the usersRouter (/routes/users.js).
-router.get('/', authenticate.verifyUser, authenticate.verifyAdmin, function(req, res) {
+router.get('/', cors.corsWithOptions, authenticate.verifyUser, authenticate.verifyAdmin, function(req, res) {
         User.find()
         .then(user => {
             res.statusCode = 200;
@@ -17,7 +18,7 @@ router.get('/', authenticate.verifyUser, authenticate.verifyAdmin, function(req,
         })
         .catch(err => next(err));
 });
-router.post('/signup', (req, res) => {
+router.post('/signup', cors.corsWithOptions, (req, res) => {
     User.register(
         new User({username: req.body.username}),
         req.body.password,
@@ -50,14 +51,14 @@ router.post('/signup', (req, res) => {
         }
     );
 });
-router.post('/login', passport.authenticate('local'), (req, res) => {
+router.post('/login', cors.corsWithOptions, passport.authenticate('local'), (req, res) => {
     // i was missing a _ on {id:req.user._id}
     const token = authenticate.getToken({_id: req.user._id});
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
     res.json({success: true, token: token, status: 'You are successfully logged in!'});
 });
-router.get('/logout', (req, res, next) => {
+router.get('/logout', cors.corsWithOptions, (req, res, next) => {
     if (req.session) {
         req.session.destroy();
         res.clearCookie('session-id');
