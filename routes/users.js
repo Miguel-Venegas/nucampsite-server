@@ -9,7 +9,7 @@ const router = express.Router();
 /* GET users listing. */
 // Workshop # 3, Task 3: Complete the GET /users endpoint
 // Allow admins to access users documents: Activate the /users path for GET requests in the usersRouter (/routes/users.js).
-router.get('/', cors.corsWithOptions, authenticate.verifyUser, authenticate.verifyAdmin, function(req, res) {
+router.get('/', cors.corsWithOptions, authenticate.verifyUser, authenticate.verifyAdmin,(req, res) => {
         User.find()
         .then(user => {
             res.statusCode = 200;
